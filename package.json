@@ -1,0 +1,22 @@
+{
+  "name": "baarbeit",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bachelor Thesis",
+  "main": "secondExperiment.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "Tchana Nikita",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "7.1.5"
+  },
+  "dependencies": {
+    "prettier": "^3.2.5"
+  }
+}
