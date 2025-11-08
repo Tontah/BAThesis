@@ -1,7 +1,7 @@
 let SEED = "42"
 import {dictionary} from "./dictionary.js";
 import {words} from "./word.js";
-import {levDisWord_DicEdit} from "./levDisWord_DicEdit.js";
+import {levDisWord_DicEdit} from "./reducedDictionary.js";
 
 let random = new Math.seedrandom("80");
 let wordArr =[];
