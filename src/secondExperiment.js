@@ -1,5 +1,5 @@
 let SEED = "42";
-import {levDisWord_DicEdit} from "./LevDisWord_DicEdit.js";
+import {levDisWord_DicEdit} from "./reducedDictionary.js";
 
 let random = new Math.seedrandom("80");
 let wordArr =[];
