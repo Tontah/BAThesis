@@ -295,6 +295,8 @@ let experiment_configuration_function = (writer) => {
                 writer.print_html_on_stage("<p>" + generate_distracter(identifierArr, task.modificationPosition, task.notation) + "</p>");
             };
 
+
+
             task.do_print_after_task_information = () => {
                 writer.print_error_string_on_stage(
                     writer.convert_string_to_html_string("The correct answer was: " + task.expected_answer +
