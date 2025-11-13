@@ -1,6 +1,7 @@
 let SEED = "42";
 Nof1.SET_SEED(SEED);
-import {levDisWord_DicEdit} from "./levDisWord_DicEdit.js";
+import {levDisWord_DicEdit} from "./reducedRevisionDictionary.js";
+
 
 let wordArr =[];
 let word;
@@ -215,8 +216,8 @@ let experiment_configuration_function = (writer) => {
         experiment_name: "Camel case Vs Underscore",
         seed: SEED,
 
-        introduction_pages: [
-            () => writer.print_string_on_stage("This is a camelCase vs under_score identifier experiment.\n\n" +
+        introduction_pages: writer.stage_string_pages_commands([
+                writer.convert_string_to_html_string("This is a camelCase vs under_score identifier experiment.\n\n" +
                 "\n\nPlease read till the end.\n\n" +
                 "\n\nThis experiment is constructed as follows.\n\n" +
                 "\n\nYou are expected to identify if the identifier you are shown\n\n" +
@@ -227,14 +228,14 @@ let experiment_configuration_function = (writer) => {
                 "\n\nThe time is not being measured yet.\n\n" +
                 "\n\nOn the page that will follow after pressing enter, you are expected to identify\n\n" +
                 " if the identifier being shown is the same as the one you studied/memorize.\n\n" +
-                "\n\nPress 0 if it is thesame, or one if it is not.\n\n" +
+                "\n\nPress  [0] if it is thesame, or [1] if it is not.\n\n" +
                 "\n\nFollow the instructions that come as you proceed.\n\n" +
                 "\n\nYou are expected to be concentrated.\n\n" +
                 "\n\nPress [Return]/[ENTER] to enter the training phase.\n\n" +
                 "\n\nThe training phase can be ended at any time by pressing [ESC].\n\n" +
                 "\n\nSo you can end the training when you think you have understood what is required.\n\n" +
                 "\n\nThanks for your participation.")
-        ],
+        ]),
 
         pre_run_training_instructions: writer.string_page_command(
             "You entered the training phase. Press [Enter] to start training."
@@ -279,17 +280,35 @@ let experiment_configuration_function = (writer) => {
             let identifierArr = generateIdentifier(3);
             task.expected_answer = answer(task.modificationPosition);
 
+            //task.has_pre_task_description = true;
             task.has_pre_task_description = true;
             task.do_print_pre_task = () => {
-                writer.clear_stage();
+                //writer.clear_stage();
                 writer.print_html_on_stage(join_identifier(identifierArr, task.notation));
                 writer.print_html_on_stage("Press  Enter/Return to proceed");
                 writer.print_html_on_stage("You can take a break if you need one.");
                 writer.print_html_on_stage("Press [Return] to continue.");
             };
 
+
+
+
+
+
+            /*t.do_print_pre_task = () => {
+                writer.print_string_on_stage("Language: <strong>" + task.language + "</strong>");
+                writer.print_string_on_stage("This preview shows how the correct script should look.");
+                writer.print_string_on_stage(task.generatePreview());
+                writer.print_string_on_stage("Press <code>[1]</code> if the code has no error and <code>[e]</code> if the code has an error.<br><br>\n");
+                writer.print_string_on_stage("&#9888; Please do <strong>not</strong> take a break in this preview.");
+                writer.print_string_on_stage("Press [Return] to continue.");
+                // Timer starten
+                reading_time_start = new Date().getTime().valueOf();
+            };*/
+
             task.do_print_task = () => {
                 writer.clear_stage();
+                writer.print_html_on_stage("this is the do_print_task method");
                 writer.print_html_on_stage(generate_distracter(identifierArr, task.modificationPosition, task.notation));
             };
 
