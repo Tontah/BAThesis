@@ -106,7 +106,7 @@ function generate_distracter(identifierArr, modificationPosition, notation){
 
 
     if(modificationPosition === 0){
-        distracter = generateIdentifier(3);
+        return join_identifier(generateIdentifier(3), notation);
     }
     else if(modificationPosition === 4){
         return join_identifier(identifierArr, notation);
@@ -219,22 +219,23 @@ let experiment_configuration_function = (writer) => {
         introduction_pages: [writer.string_page_command(
                 "<p>This is a camelCase vs under_score identifier experiment." +
                 "\n\nPlease read till the end.</p>" +
-                "<p>This experiment is constructed as follows." +
-                "\n\nYou are expected to identify if the identifier you are shown" +
-                " on the second page is the same as the one you were shown on the first page." +
-                "\n\nThe identifiers shown hold no importance in their name/meaning." +
-                "\n\nYou will be shown an identifier on the first page.\n\n" +
-                "\n\nYou have to study this identifier/ memorize, take your time.\n\n" +
-                "\n\nThe time is not being measured yet.\n\n" +
-                "\n\nOn the page that will follow after pressing enter, you are expected to identify\n\n" +
-                " if the identifier being shown is the same as the one you studied/memorize.\n\n" +
-                "\n\nPress  [0] if it is thesame, or [1] if it is not.\n\n" +
-                "\n\nFollow the instructions that come as you proceed.\n\n" +
-                "\n\nYou are expected to be concentrated.\n\n" +
-                "\n\nPress [Return]/[ENTER] to enter the training phase.\n\n" +
-                "\n\nThe training phase can be ended at any time by pressing [ESC].\n\n" +
+                "<p>This experiment is constructed as follows.</p>" +
+                "<p>You are expected to identify if the identifier you are shown" +
+                " on the second page is the same as the one you were shown on the first page.</p>" +
+                "<p>The identifiers shown hold no importance in their name/meaning.</p>" +
+                "<p>You will be shown an identifier on the first page.</p>" +
+                "<p>You have to study this identifier/ memorize, take your time.</p>" +
+                "<p>The time is not being measured yet.</p>" +
+                "<p>On the page that will follow after pressing enter, you are expected to identify\n\n" +
+                " if the identifier being shown is the same as the one you studied/memorize.</p>" +
+                "<p>Press  [0] if it is thesame, or [1] if it is not.</p>" +
+                "<p>Follow the instructions that come as you proceed.</p>" +
+                "<p>You are expected to be concentrated.</p>" +
+                "<p>Press [Return]/[ENTER] to enter the training phase.</p>" +
+                "<p>The training phase can be ended at any time by pressing [ESC].</p>" +
                 "\n\nSo you can end the training when you think you have understood what is required.\n\n" +
-                "\n\nThanks for your participation.")],
+                "<p>Thanks for your participation.</p>" +
+            " ")],
 
         pre_run_training_instructions: writer.string_page_command(
             "You entered the training phase. Press [Enter] to start training."
@@ -269,7 +270,7 @@ let experiment_configuration_function = (writer) => {
             {variable:"ModificationPosition", treatments:["0", "1", "2" , "3", "4"]},//Position 0 implies distracterType different and position 4 implies the same identifier is shown as the distracter.
         ],
 
-        repetitions: 1,                    // Anzahl der Wiederholungen pro Treatmentcombination
+        repetitions: 15,                    // Anzahl der Wiederholungen pro Treatmentcombination
         accepted_responses: ["0", "1"], // Tasten, die vom Experiment als Eingabe akzeptiert werden
         measurement: Nof1.Reaction_time(Nof1.keys(["0", "1"])),
 
@@ -279,23 +280,24 @@ let experiment_configuration_function = (writer) => {
             let identifierArr = generateIdentifier(3);
             task.expected_answer = answer(task.modificationPosition);
 
-            //task.has_pre_task_description = true;
+
             task.has_pre_task_description = true;
             task.do_print_pre_task = () => {
                 writer.clear_stage();
                 writer.print_html_on_stage("<p>" + join_identifier(identifierArr, task.notation) + "</p>");
-                writer.print_html_on_stage("<p>Press  Enter/Return to proceed</p>");
-                writer.print_html_on_stage("<p>You can take a break if you need one.</p>");
-                writer.print_html_on_stage("<p>Press [Return] to continue.</p>");
+
             };
 
             task.do_print_task = () => {
                 writer.clear_stage();
-                writer.print_html_on_stage("<p>this is the do_print_task method</p>");
+                writer.print_html_on_stage("<p>&nbsp</p>");
+                writer.print_html_on_stage("<p>&nbsp</p>");
                 writer.print_html_on_stage("<p>" + generate_distracter(identifierArr, task.modificationPosition, task.notation) + "</p>");
             };
 
-
+            task.accepts_answer = (s) => {
+                return true;
+            }
 
             task.do_print_after_task_information = () => {
                 writer.print_error_string_on_stage(
