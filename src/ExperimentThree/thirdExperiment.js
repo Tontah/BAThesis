@@ -273,6 +273,7 @@ let experiment_configuration_function = (writer) => {
         layout: [
             {variable:"Notation", treatments:["CC", "SC"]},
             {variable:"ModificationPosition", treatments:["0", "1", "2" , "3", "4"]},//Position 0 implies distracterType different and position 4 implies the same identifier is shown as the distracter.
+            {variable:"IdentifierReadingTime", treatments:["Dummy"]},
         ],
 
         repetitions: 25,                    // Anzahl der Wiederholungen pro Treatmentcombination
@@ -285,15 +286,23 @@ let experiment_configuration_function = (writer) => {
             let identifierArr = generateIdentifier(3);
             task.expected_answer = answer(task.modificationPosition);
 
+            let reading_time_start = null;
+            let reading_time_stop = null;
 
             task.has_pre_task_description = true;
             task.do_print_pre_task = () => {
                 writer.clear_stage();
                 writer.print_html_on_stage("<p>" + join_identifier(identifierArr, task.notation) + "</p>");
+                reading_time_start = new Date().getTime().valueOf();
 
             };
 
             task.do_print_task = () => {
+
+                reading_time_stop = new Date().getTime().valueOf();
+                let required_milliseconds = reading_time_stop - reading_time_start;
+                task.set_computed_variable_value("IdentifierReadingTime", required_milliseconds.toString())
+
                 writer.clear_stage();
                 writer.print_html_on_stage("<p>&nbsp</p>");
                 writer.print_html_on_stage("<p>&nbsp</p>");
