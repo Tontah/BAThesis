@@ -1,4 +1,4 @@
-let SEED = "42";
+let SEED = "24";
 Nof1.SET_SEED(SEED);
 import {levDisWord_DicEdit} from "./LevDisWord_DicEdit.js";
 
@@ -114,7 +114,12 @@ function generate_distracter(identifierArr, modificationPosition, notation){
     else {
         word = identifierArr[modificationPosition-1];
         levDistances = getting_the_array_of_word(word);
-        distracter = shuffle_for_distracters(levDistances[1])[0];
+        if(levDistances[1].length === 1){
+            distracter = shuffle_for_distracters(levDistances[2])[0];
+        }
+        else {
+            distracter = shuffle_for_distracters(levDistances[1])[0];
+        }
     }
     return composing_distracter(identifierArr, distracter, modificationPosition, notation);
 }
@@ -270,7 +275,7 @@ let experiment_configuration_function = (writer) => {
             {variable:"ModificationPosition", treatments:["0", "1", "2" , "3", "4"]},//Position 0 implies distracterType different and position 4 implies the same identifier is shown as the distracter.
         ],
 
-        repetitions: 15,                    // Anzahl der Wiederholungen pro Treatmentcombination
+        repetitions: 25,                    // Anzahl der Wiederholungen pro Treatmentcombination
         accepted_responses: ["0", "1"], // Tasten, die vom Experiment als Eingabe akzeptiert werden
         measurement: Nof1.Reaction_time(Nof1.keys(["0", "1"])),
 
