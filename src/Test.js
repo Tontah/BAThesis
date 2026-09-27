@@ -1,12 +1,17 @@
-import {levDisWord_DicEdit} from "./levDisWord_DicEdit(2).js";
+import {levDisWord_DicEdit} from "./filteredDictionary.js";
 
 console.log("length of the array is "+ levDisWord_DicEdit.length);
 
-/*
-for (let i = 0; i < levDisWord_DicEdit.length; i++) {
-    let arr = levDisWord_DicEdit[i];
-    if (arr[1].length + arr[2].length + arr[3].length < 9){
-        console.log(arr[0])
-        //levDisWord_DicEdit.splice(i,1);
+let counter = 0;
+function filter(){
+    for (let i = 0; i < levDisWord_DicEdit.length; i++) {
+        if(levDisWord_DicEdit[i][0].length < 7 && levDisWord_DicEdit[i][0].length > 4){
+            counter++;
+        }
     }
-}*/
+    return counter;
+}
+console.log(levDisWord_DicEdit.length
+
+
+);

@@ -1,11 +1,11 @@
 let SEED = "42";
-import {levDisWord_DicEdit} from "./reducedDictionary.js";
+import {levDisWord_DicEdit} from "./filteredDictionary.js";
 
 let random = new Math.seedrandom("80");
 let wordArr =[];
 let word;
+let modificationPos;
 document.set_seed(SEED);
-
 function uppercase(identArray) {
     let output;
     output = [identArray[0]];
@@ -20,7 +20,7 @@ function generateIdentifier(numWords) {
     const length = levDisWord_DicEdit.length;
     word = "";
     for(let i= 0; i < numWords; i++) {
-        while (word.length < 4){
+        while (word.length < 4 || word.length > 6){
             wordArr = levDisWord_DicEdit[document.new_random_integer(length)];
             word = wordArr[0];
         }
@@ -31,12 +31,12 @@ function generateIdentifier(numWords) {
 }
 
 
-function generate_experiment(numOfCorrectIdentifiers, modificationPosition, separator, notation){
+function generate_experiment(numOfCorrectIdentifiers, distractorType, separator, notation){
     let wordArr = generateIdentifier(3);
-    let distracters = shuffle_array(generate_distracter(wordArr, modificationPosition))
+    let distracters = shuffle_array(generate_distracter(wordArr, distractorType))
     let identifier;
     let output ;
-    const pos = [0,1,2,3,4];
+    const pos = [0,1,2,3];
     let correctIdenPosition = [];
 
 
@@ -46,7 +46,7 @@ function generate_experiment(numOfCorrectIdentifiers, modificationPosition, sepa
 
 
     correctIdenPosition = shuffle_array(pos).slice(0, numOfCorrectIdentifiers);
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         if (correctIdenPosition.includes(i)) {
             output += writeOutput(identifier, i, separator);
         }
@@ -119,7 +119,12 @@ function getting_the_array_of_word(word){
 }
 
 
-function generate_distracter(identifierArr, modificationPosition){
+function generate_random(rand){
+    return Math.abs(rand.int32() % 3);
+}
+
+
+function generate_distracter(identifierArr, distractorType){
     let distracterArr = [];
     let levDistances =[];
     let shuffled =[];
@@ -128,13 +133,13 @@ function generate_distracter(identifierArr, modificationPosition){
     let added = 0;
 
 
-    if(modificationPosition === 0){
-        for (let i = 0; i < 5; i++) {
+    if(distractorType === "different"){
+        for (let i = 0; i < 4; i++) {
             distracterArr.push(generateIdentifier(3));
         }
     }
     else {
-        word = identifierArr[modificationPosition-1];
+        word = identifierArr[modificationPos];
         levDistances = getting_the_array_of_word(word);
         for (let j = 1; j < levDistances.length; j++) {
             if(added === 5){
@@ -149,14 +154,14 @@ function generate_distracter(identifierArr, modificationPosition){
                 else{
                     //changing letters wrt the position of modification.
                     if (shuffled[i].length === word.length || shuffled[i].length === (word.length + 1) || shuffled[i].length === (word.length - 1)) {
-                        distracterArr.push(composing_distracter_array(identifierArr, distracter, modificationPosition));
+                        distracterArr.push(composing_distracter_array(identifierArr, distracter, modificationPos));
                         added++;
                     }
                 }
             }
         }
         if(distracterArr.length !== 5){
-            word = identifierArr[modificationPosition-1];
+            word = identifierArr[modificationPos];
             levDistances = getting_the_array_of_word(word);
             for (let j = 1; j < levDistances.length; j++) {
                 if (added === 5) {
@@ -165,6 +170,81 @@ function generate_distracter(identifierArr, modificationPosition){
                 shuffled = shuffle_for_distracters(levDistances[j]);
                 for (let i = 0; i < shuffled.length; i++) {
                     if (added === 5) {
+                        break;
+                    }
+                    distracter = shuffled[i];
+                    //changing letters wrt the position of modification.
+                    if (shuffled[i].length === (word.length + 2) || shuffled[i].length === (word.length - 2)) {
+                        distracterArr.push(composing_distracter_array(identifierArr, distracter, modificationPos));
+                        added++;
+                    }
+                }
+            }
+        }
+    }
+    return distracterArr;
+}
+
+
+function composing_distracter_array(identifierArr, distracter, modificationPos){
+    let result = [];
+    for (let k = 0; k < 3; k++) {
+        if (modificationPos === k) {
+            result[k] = distracter
+        } else {
+            result[k] = identifierArr[k];
+        }
+    }
+    return result;
+}
+
+
+function distracter_generate(identifierArr, modificationPosition){
+    let distracterArr = [];
+    let levDistances =[];
+    let shuffled =[];
+    let word;
+    let distracter = "";
+    let added = 0;
+
+
+    if(modificationPosition === 0){
+        for (let i = 0; i < 4; i++) {
+            distracterArr.push(generateIdentifier(3));
+        }
+    }
+    else {
+        word = identifierArr[modificationPosition-1];
+        levDistances = getting_the_array_of_word(word);
+        for (let j = 1; j < levDistances.length; j++) {
+            if(added === 4){
+                break;
+            }
+            shuffled = shuffle_for_distracters(levDistances[j]);
+            for (let i = 0; i < shuffled.length; i++) {
+                distracter = shuffled[i];
+                if(added === 4){
+                    break;
+                }
+                else{
+                    //changing letters wrt the position of modification.
+                    if (shuffled[i].length === word.length || shuffled[i].length === (word.length + 1) || shuffled[i].length === (word.length - 1)) {
+                        distracterArr.push(composing_distracter_array(identifierArr, distracter, modificationPosition-1));
+                        added++;
+                    }
+                }
+            }
+        }
+        if(distracterArr.length !== 4){
+            word = identifierArr[modificationPosition-1];
+            levDistances = getting_the_array_of_word(word);
+            for (let j = 1; j < levDistances.length; j++) {
+                if (added === 4) {
+                    break;
+                }
+                shuffled = shuffle_for_distracters(levDistances[j]);
+                for (let i = 0; i < shuffled.length; i++) {
+                    if (added === 4) {
                         break;
                     }
                     distracter = shuffled[i];
@@ -181,18 +261,31 @@ function generate_distracter(identifierArr, modificationPosition){
 }
 
 
-function composing_distracter_array(identifierArr, distracter, modificationPosition){
-    let result = [];
-    for (let k = 0; k < 3; k++) {
-        if (modificationPosition - 1 === k) {
-            result[k] = distracter
-        } else {
-            result[k] = identifierArr[k];
+
+function experiment_generate(numOfCorrectIdentifiers, modificationPosition, separator, notation){
+    let wordArr = generateIdentifier(3);
+    let distracters = shuffle_array(distracter_generate(wordArr, modificationPosition))
+    let identifier;
+    let output ;
+    const pos = [0,1,2,3];
+    let correctIdenPosition = [];
+
+
+    identifier = join_identifier(wordArr, notation);
+    output = identifier + "\n" + "\n";
+
+
+    correctIdenPosition = shuffle_array(pos).slice(0, numOfCorrectIdentifiers);
+    for (let i = 0; i < 4; i++) {
+        if (correctIdenPosition.includes(i)) {
+            output += writeOutput(identifier, i, separator);
+        }
+        else {
+            output += writeOutput(join_identifier(distracters[i], notation), i, separator);
         }
     }
-    return result;
+    return output;
 }
-
 
 
 document.experiment_definition(
@@ -223,19 +316,28 @@ document.experiment_definition(
         layout:[
             {variable:"Notation", treatments:["CC", "SC"]},
             {variable:"Separator", treatments:["Newline", "Whitespace"]},
-            {variable: "NumOfCorrectIdents", treatments: ["0", "1", "2" , "3", "4"]},//tells how many correct identifiers have to be in the list, the rest are the distracters
-            {variable: "ModificationPosition", treatments: ["0", "1", "2", "3"]},
+            {variable: "NumOfCorrectIdents", treatments: ["0", "1", "2" , "3"]}, //tells how many correct identifiers have to be in the list, the rest are the distracters
+            {variable: "ModificationPos", treatments: ["0", "1", "2" , "3"/*"random"*/]},
+            //{variable: "Distractor", treatments: ["different", "similar",]},// different will not be stored in the realPos
         ],
-        repetitions:5,                    // Anzahl der Wiederholungen pro Treatmentcombination
-        accepted_responses:["0", "1", "2", "3", "4"], // Tasten, die vom Experiment als Eingabe akzeptiert werden
+        repetitions:3,                    // Anzahl der Wiederholungen pro Treatmentcombination
+        accepted_responses:["0", "1", "2", "3"], // Tasten, die vom Experiment als Eingabe akzeptiert werden
         task_configuration:(t)=>{
 
-
+            // t.treatment_combination = [...t.treatment_combination]
+            // t.treatment_combination[3] = {variable: t.treatment_combination[3].variable, value: t.treatment_combination[2].value}
+            // t.treatment_combination[3].value = t.treatment_combination[2].value;
             t.expected_answer = parseInt(t.treatment_combination[2].value);
             t.notation = t.treatment_combination[0].value;
             t.seperator = t.treatment_combination[1].value;
-            t.modificationPosition = parseInt(t.treatment_combination[3].value);
-            t.code = generate_experiment(t.expected_answer, t.modificationPosition, t.seperator, t.notation);
+            t.modificationPos = parseInt(t.treatment_combination[3].value);
+            //t.distractor = t.treatment_combination[4].value;
+            // if(t.distractor === "similar"){
+            //     modificationPos = generate_random(random);
+            //     t.treatment_combination[3].value = modificationPos;
+            // }
+            // else{ t.treatment_combination[3].value = "random"}
+            t.code = experiment_generate(t.expected_answer, t.modificationPos, t.seperator, t.notation);
 
 
             t.after_task_string = ()=>"The correct answer was: " + t.expected_answer +
@@ -245,4 +347,5 @@ document.experiment_definition(
         }
     }
 );
+
 
