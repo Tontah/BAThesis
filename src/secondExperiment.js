@@ -298,7 +298,7 @@ document.experiment_definition(
         "You will be shown a page with an identifier on the \n\n" +
         "top left corner and a list of identifiers underneath.\n\n" +
         "You are expected to count the number of identifiers that match the identifier shown top left,\n\n" +
-        " and type in the number you counted from zero to five\n\n" +
+        " and type in the number you counted.\n\n" +
         "The name of the identifiers are not of any importance.\n\n" +
         "Follow the instructions that come as you proceed.\n\n" +
         "You are expected to be concentrated.\n\n" +
@@ -306,7 +306,8 @@ document.experiment_definition(
         "The training phase can be ended at any time by pressing [ESC].\n\n" +
         "So you can end the training when you think you have understood what is required.\n\n" +
         "As you press enter, place your fingers on the 0, 4, 5, 6 keys on the num pad.\n\n" +
-        "you can then use the 0, 1, 2, 3, 4 keys to type in the correct answer.\n\n" +
+        "or directly on the 0, 1, 2, 3 keys if your hand can sustain that.\n\n" +
+        "you can then use the 0, 1, 2, 3 keys to type in the correct answer.\n\n" +
         "Thanks for your participation."],
 
         pre_run_instruction:"Be prepared - experimentation starts soon.",
