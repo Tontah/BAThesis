@@ -2,7 +2,7 @@ let SEED = "42"
 import {levDisWord_DicEdit} from "./filteredDictionary.js";
 
 
-let random = new Math.seedrandom("80");
+let random = new Math.seedrandom("rand");
 let wordArr =[];
 let word;
 document.set_seed(SEED);
@@ -204,7 +204,7 @@ let expect = "";
 document.experiment_definition(
     {
         experiment_name:"Camel case Vs Underscore",
-        seed:"42",
+        seed:"seed",
         introduction_pages:["This is a camelCase vs under_score identifier experiment.\n\n" +
         "Please read till the end.\n\n" +
         "This experiment is constructed as follows.\n\n" +
@@ -215,15 +215,18 @@ document.experiment_definition(
         "Press [Return]/[ENTER] to enter the training phase.\n\n" +
         "The training phase can be ended at any time by pressing [ESC].\n\n" +
         "So you can end the training when you think you have understood what is required.\n\n" +
+        "The experiment ends when you have downloaded the data by pressing ENTER on the last page\n\n" +
+        "and sent to the email address shown on the page. Ensure you do please.\n\n" +
         "Thanks for your participation."],
 
         pre_run_instruction:"Be prepared - experimentation starts soon.",
 
-        finish_pages:["Thanks for participating. Pressing [ENTER] downloads the csv data file.\n\n" +
-        "Please send this file to nikitatchana@gmail.com"],
+        finish_pages:["You have completed the experiment. Press [ENTER] to download the csv data file.\n\n" +
+        "Please send this file to nikitatchana@gmail.com\n\n" +
+        "Thanks for participating. Remember to send the csv file."],
         layout:[
             {variable:"Notation", treatments:["CC", "SC"]},
-            {variable:"Separator", treatments:["Newline", "Whitespace"]},
+            {variable:"Separator", treatments:["Whitespace"]},
             {variable: "NumOfCorrectIdents", treatments: ["0", "1", "2" , "3"]},//tells how many identifiers have to be in the list, the rest are thn distractors
             {variable: "DistractorType", treatments: ["same", "different"]},
         ],
