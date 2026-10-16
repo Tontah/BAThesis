@@ -208,15 +208,18 @@ document.experiment_definition(
         introduction_pages:["This is a camelCase vs under_score identifier experiment.\n\n" +
         "Please read till the end.\n\n" +
         "This experiment is constructed as follows.\n\n" +
-        "You are expected to count the number of identifiers shown and type the counted number.\n\n" +
+        "You will be shown a page having an identifier at the top left corner\n\n" +
+        "and below that is a list of identifiers.\n\n" +
+        "You are expected to count the number of times the identifier on the top left\n\n" +
+        "appears in the proposed list and type in the number obtained.\n\n" +
         "The name of the identifiers are not of any importance.\n\n" +
         "Follow the instructions that come as you proceed.\n\n" +
         "You are expected to be concentrated.\n\n" +
         "Press [Return]/[ENTER] to enter the training phase.\n\n" +
         "The training phase can be ended at any time by pressing [ESC].\n\n" +
         "So you can end the training when you think you have understood what is required.\n\n" +
-        "The experiment ends when you have downloaded the data by pressing ENTER on the last page\n\n" +
-        "and sent to the email address shown on the page. Ensure you do please.\n\n" +
+        "THE EXPERIMENT ENDS WHEN YOU HAVE DOWNLOADED THE CSV DATAFILE BY PRESSING [Return]/[ENTER] ON THE LAST PAGE\n\n" +
+        "AND SENT TO THE EMAIL ADDRESS SHOWN ON THE LAST PAGE. ENSURE YOU DO PLEASE.\n\n" +
         "Thanks for your participation."],
 
         pre_run_instruction:"Be prepared - experimentation starts soon.",
